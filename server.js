@@ -26,7 +26,7 @@ app.post('/uploadImage', (req, res) => {
   const imageBuffer = Buffer.from(base64Image, 'base64');
   const timestamp = new Date().getTime();
   const imageName = `image_${timestamp}.png`; 
-  const imagePath = path.join(__dirname, 'images', imageName);
+  const imagePath = path.join('images', imageName);
 
   fs.writeFile(imagePath, imageBuffer, 'base64', (err) => {
     if (err) {
