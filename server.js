@@ -6,7 +6,6 @@ const path = require('path');
 const cloudinary = require('cloudinary').v2;
 
 const app = express();
-const PORT = process.env.PORT || 3000;
 
 app.use(bodyParser.json({ limit: '10mb' }));
 
@@ -54,8 +53,7 @@ cron.schedule('*/30 * * * * *', async () => {  /*every 30 seconds*/
     }
   }
 });
-app.listen(PORT, () => {
-  console.log(`Server listening on port ${PORT}`);
-});
+const port = process.env.PORT || 9001;
+app.listen(port, () => console.log(`Listening to port ${port}`));
 
 console.log('Server started.');
