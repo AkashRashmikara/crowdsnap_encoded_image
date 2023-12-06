@@ -2,14 +2,19 @@
   "version": 2,
   "builds": [
     {
-      "src": "./server.js",
-      "use": "@vercel/node"
+      "src": "server.js",
+      "use": "@now/node"
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "/"
+      "dest": "/server.js"
     }
-  ]
+  ],
+  "env": {
+    "CLOUD_NAME": "akashrashmikara",
+    "API_KEY": "126369654527677",
+    "API_SECRET": "sa14m5fo7ICZmLOVSWVKEXnMqiM"
+  }
 }
