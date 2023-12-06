@@ -26,7 +26,7 @@ app.post('/uploadImage', (req, res) => {
   const imageBuffer = Buffer.from(base64Image, 'base64');
   const timestamp = new Date().getTime();
   const imageName = `image_${timestamp}.png`; 
-  const imagePath = path.join(__dirname, 'images', imageName);
+  const imagePath = path.join('/tmp', 'image_' + timestamp + '.png');
 
   fs.writeFile(imagePath, imageBuffer, 'base64', (err) => {
     if (err) {
@@ -41,7 +41,7 @@ cron.schedule('*/30 * * * * *', async () => {  /*every 30 seconds*/
 //cron.schedule('*/10 * * * *', async () => {  /*every 10 minutes*/
 //cron.schedule('0 8 * * 1', async () => {    /*every Monday at 8:00 AM*/
 //cron.schedule('* * * * *', async () => {  /*every minute*/
-  const files = fs.readdirSync('images');
+const files = fs.readdirSync('/tmp');
   for (const file of files) {
     const imagePath = path.join('images', file);
     try {
@@ -53,7 +53,7 @@ cron.schedule('*/30 * * * * *', async () => {  /*every 30 seconds*/
     }
   }
 });
-const port = process.env.PORT || 9001;
+const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`Listening to port ${port}`));
 
 console.log('Server started.');
