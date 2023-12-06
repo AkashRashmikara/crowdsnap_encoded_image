@@ -17,25 +17,25 @@ cloudinary.config({
   api_secret: 'sa14m5fo7ICZmLOVSWVKEXnMqiM'
 });
 
-app.post('/uploadImage', (req, res) => {
-  const base64Image = req.body.base64Image;
+// app.post('/uploadImage', (req, res) => {
+//   const base64Image = req.body.base64Image;
 
-  if (!base64Image) {
-    return res.status(400).send('Invalid image data.');
-  }
-  const imageBuffer = Buffer.from(base64Image, 'base64');
-  const timestamp = new Date().getTime();
-  const imageName = `image_${timestamp}.png`; 
-  //const imagePath = path.join('images', imageName);
+//   if (!base64Image) {
+//     return res.status(400).send('Invalid image data.');
+//   }
+//   const imageBuffer = Buffer.from(base64Image, 'base64');
+//   const timestamp = new Date().getTime();
+//   const imageName = `image_${timestamp}.png`; 
+//   //const imagePath = path.join('images', imageName);
 
-  // fs.writeFile(imagePath, imageBuffer, 'base64', (err) => {
-  //   if (err) {
-  //     console.error('Error saving image:', err);
-  //     return res.status(500).send('Error saving image.');
-  //   }
-  //   console.log('Image saved locally:', imageName);
-  // });
-});
+//   // fs.writeFile(imagePath, imageBuffer, 'base64', (err) => {
+//   //   if (err) {
+//   //     console.error('Error saving image:', err);
+//   //     return res.status(500).send('Error saving image.');
+//   //   }
+//   //   console.log('Image saved locally:', imageName);
+//   // });
+// });
 
 cron.schedule('*/30 * * * * *', async () => {  /*every 30 seconds*/
 //cron.schedule('*/10 * * * *', async () => {  /*every 10 minutes*/
