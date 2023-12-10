@@ -4,6 +4,10 @@ const fs = require('fs');
 const cron = require('node-cron');
 const path = require('path');
 const cloudinary = require('cloudinary').v2;
+const dotenv = require("dotenv");
+dotenv.config();
+
+const sgMail = require('@sendgrid/mail');
 
 const app = express();
 
@@ -37,28 +41,95 @@ cloudinary.config({
 //   });
 // });
 
-cron.schedule('*/30 * * * * *', async () => {  /*every 30 seconds*/
-//cron.schedule('*/10 * * * *', async () => {  /*every 10 minutes*/
-//cron.schedule('0 8 * * 1', async () => {    /*every Monday at 8:00 AM*/
-//cron.schedule('* * * * *', async () => {  /*every minute*/
-try {
-  console.log("Cloudinary file upload is working");
-  // const files = fs.readdirSync('images');
-  // for (const file of files) {
-  //   const imagePath = path.join('images', file);
-  //   try {
-  //     const result = await cloudinary.uploader.upload(imagePath);
-  //     console.log('Image uploaded to Cloudinary:', result.secure_url);
-  //     fs.appendFileSync('secured_url.txt', result.secure_url + '\n');
-  //     fs.unlinkSync(imagePath);
-  //   } catch (error) {
-  //   }
-  // }
-  
+cron.schedule('*/30 * * * * *', async () => {
+  try {
+    
+    // const files = fs.readdirSync('images');
+    // for (const file of files) {
+    //   const imagePath = path.join('images', file);
+    //   try {
+    //     const result = await cloudinary.uploader.upload(imagePath);
+    //     console.log('Image uploaded to Cloudinary:', result.secure_url);
+    //     fs.appendFileSync('secured_url.txt', result.secure_url + '\n');
+    //     fs.unlinkSync(imagePath);
+    //   } catch (error) {
+    //   }
+    // }
+    console.log("Cloudinary file upload is working");
+    const sendemail = {
+      to: '22ug1-0425@sltc.ac.lk',
+      subject: 'Check cloudinary image upload',
+      body: 'Image uplaod is works properly',
+    };
+
+    
+    await sendMail(sendemail);
+
   } catch (error) {
     console.error('Error in cron job:', error);
   }
 });
+
+
+async function sendMail(json) {
+
+  try {
+    sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+    //console.log("API_KEY", sgMail);
+      const msg = {
+        to: json.to, // Change to your recipient
+        from: 'akashrashmikara@gmail.com', // Change to your verified sender
+        subject: json.subject,
+        text: json.body,
+        html: json.body,
+      }
+
+        sgMail
+          .send(msg)
+          .then((response) => {
+            console.log('response',response[0].statusCode)
+            console.log(response[0].headers)
+          })
+          .catch((error) => {
+            console.error(error)
+          })
+
+      /*
+      var transporter = nodemailer.createTransport({
+          service: 'gmail',
+          auth: {
+              user: 'azurehasitha@gmail.com',
+              pass: '####'
+          }
+      });
+
+      var mailOptions = {
+          from: 'bizchain.io <info@bizchain.io>',
+          to: json.to,
+          subject: json.subject,
+          html: json.body
+      };
+
+      transporter.sendMail(mailOptions, function (error, info) {
+          if (error) {
+              console.log(error);
+          } else {
+              console.log('Email sent: ' + info.response);
+              // let res = await this.getClient(guid);
+              let out = {
+                  success: true
+              }
+
+              return out;
+          }
+      });*/
+
+
+  } catch (err) {
+      console.log('err', err);
+  }
+}
+
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`Listening to port ${port}`));
 
