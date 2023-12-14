@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+  <meta charset="UTF-8">
+  <title>check TiDB with AWS</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.9/angular.min.js"></script>
+</head>
+<body ng-controller="myController">
+</body>
+<script>
+    var app = angular.module('myApp', []);
+    app.controller('myController', function($scope, $http) {
+      $http.get('http://localhost:3000')
+          .then(function(response) {
+          $scope.users = response.data;
+          })
+          .catch(function(error) {
+          console.error('Error fetching users:', error);
+          });
+      });
+</script>
+</html>
